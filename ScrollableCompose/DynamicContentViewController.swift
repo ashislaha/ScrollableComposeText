@@ -120,7 +120,7 @@ class DynamicContentViewController: UIViewController {
         // Add your UIViews and UITextViews to contentStackView
         // Example:
         addTextView(text: "Type your text here...")
-        addViewToStaticView(height: 80)
+        addView(height: 80)
         addTextView(text: "Type ..")
     }
     
@@ -186,7 +186,7 @@ class DynamicContentViewController: UIViewController {
         textView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60).isActive = true
     }
     
-    private func addViewToStaticView(height: CGFloat) {
+    private func addView(height: CGFloat) {
         let label = UILabel()
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
@@ -195,6 +195,31 @@ class DynamicContentViewController: UIViewController {
         label.backgroundColor = .systemBlue.withAlphaComponent(0.3)
         label.heightAnchor.constraint(equalToConstant: height).isActive = true
         contentStackView.addArrangedSubview(label)
+    }
+    
+    public func addViewToStackTop() {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.text = "Dynamic Label"
+        label.textAlignment = .center
+        label.backgroundColor = .systemYellow.withAlphaComponent(0.3)
+        label.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        contentStackView.insertArrangedSubview(label, at: 0)
+        updateScrollViewHeight()
+    }
+
+    public func removeViewToStackTop() {
+        let subviews = contentStackView.arrangedSubviews
+        guard let firstView = subviews.first else { return }
+        if firstView is UITextView {
+            // stop if it is UITextView
+            return
+        }
+        
+        firstView.removeFromSuperview()
+        contentStackView.removeArrangedSubview(firstView)
+        
+        updateScrollViewHeight()
     }
 }
 
@@ -208,6 +233,7 @@ extension DynamicContentViewController: UITextViewDelegate {
     
     func updateScrollViewHeight() {
         let contentHeight = contentStackView.bounds.height // Get actual content height
+        // let contentHeight = contentStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
         let maxScrollViewHeight: CGFloat = 250 // Define upper limit for scroll view height
 
         if contentHeight >= maxScrollViewHeight {
