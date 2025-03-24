@@ -89,6 +89,9 @@ class DynamicContentViewController: UIViewController {
         mainStackView.axis = .vertical
         mainStackView.spacing = 0
         mainStackView.distribution = .fill
+        mainStackView.layer.cornerRadius = 8.0
+        mainStackView.layer.borderColor = UIColor.gray.cgColor
+        mainStackView.layer.borderWidth = 1
         view.addSubview(mainStackView)
         
         // Header view setup (your static view)
@@ -137,15 +140,15 @@ class DynamicContentViewController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        bottomConstraint = mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8)
+        bottomConstraint = mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
         
         let contentHeight = contentStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
         scrollViewHeightConstraint = scrollView.heightAnchor.constraint(equalToConstant: contentHeight)
         
         NSLayoutConstraint.activate([
             // Main stack view constraints
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
+            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
             bottomConstraint,
             
             // Header height constraint - adjust as needed
