@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         
         // First button
         let firstButton = UIBarButtonItem(
-            title: "add",
+            title: "add top",
             style: .plain,
             target: self,
             action: #selector(addView)
@@ -39,14 +39,30 @@ class ViewController: UIViewController {
 
         // Second button
         let secondButton = UIBarButtonItem(
-            title: "delete",
+            title: "delete top",
             style: .plain,
             target: self,
             action: #selector(removeView)
         )
+        
+        // 3rd button
+        let thirdButton = UIBarButtonItem(
+            title: "add bottom",
+            style: .plain,
+            target: self,
+            action: #selector(addViewBottom)
+        )
+
+        // 4th button
+        let fourthButton = UIBarButtonItem(
+            title: "delete bottom",
+            style: .plain,
+            target: self,
+            action: #selector(removeViewBottom)
+        )
 
         // Add both buttons to the navigation bar (right side)
-        navigationItem.rightBarButtonItems = [secondButton, firstButton]
+        navigationItem.rightBarButtonItems = [fourthButton, thirdButton, secondButton, firstButton]
     }
 
     @objc func addView() {
@@ -54,7 +70,15 @@ class ViewController: UIViewController {
     }
 
     @objc func removeView() {
-        dynamicContentVC.removeViewToStackTop()
+        dynamicContentVC.removeViewFromStackTop()
+    }
+    
+    @objc func addViewBottom() {
+        dynamicContentVC.addViewToStackBottom()
+    }
+
+    @objc func removeViewBottom() {
+        dynamicContentVC.removeViewFromStackBottom()
     }
 }
 

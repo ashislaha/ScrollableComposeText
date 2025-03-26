@@ -103,7 +103,6 @@ class DynamicContentViewController: UIViewController {
         // ScrollView setup
         scrollView.showsVerticalScrollIndicator = true
         scrollView.alwaysBounceVertical = true
-        scrollView.isScrollEnabled = false
         mainStackView.addArrangedSubview(scrollView)
         
         // Content stack view setup
@@ -200,7 +199,7 @@ class DynamicContentViewController: UIViewController {
     public func addViewToStackTop() {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "Dynamic Label"
+        label.text = "Dynamic Label at top"
         label.textAlignment = .center
         label.backgroundColor = .systemYellow.withAlphaComponent(0.3)
         label.heightAnchor.constraint(equalToConstant: 20).isActive = true
@@ -208,7 +207,7 @@ class DynamicContentViewController: UIViewController {
         updateScrollViewHeight()
     }
 
-    public func removeViewToStackTop() {
+    public func removeViewFromStackTop() {
         let subviews = contentStackView.arrangedSubviews
         guard let firstView = subviews.first else { return }
         if firstView is UITextView {
@@ -218,6 +217,32 @@ class DynamicContentViewController: UIViewController {
         
         firstView.removeFromSuperview()
         contentStackView.removeArrangedSubview(firstView)
+        
+        updateScrollViewHeight()
+    }
+    
+    public func addViewToStackBottom() {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.text = "Dynamic Label at bottom"
+        label.textAlignment = .center
+        label.backgroundColor = .systemYellow.withAlphaComponent(0.3)
+        label.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        let lastIndex = contentStackView.arrangedSubviews.count
+        contentStackView.insertArrangedSubview(label, at: lastIndex)
+        updateScrollViewHeight()
+    }
+
+    public func removeViewFromStackBottom() {
+        let subviews = contentStackView.arrangedSubviews
+        guard let lastView = subviews.last else { return }
+        if lastView is UITextView {
+            // stop if it is UITextView
+            return
+        }
+        
+        lastView.removeFromSuperview()
+        contentStackView.removeArrangedSubview(lastView)
         
         updateScrollViewHeight()
     }
@@ -238,10 +263,8 @@ extension DynamicContentViewController: UITextViewDelegate {
 
         if contentHeight >= maxScrollViewHeight {
             scrollViewHeightConstraint.constant = maxScrollViewHeight
-            scrollView.isScrollEnabled = true
         } else {
             scrollViewHeightConstraint.constant = contentHeight
-            scrollView.isScrollEnabled = false
         }
 
         view.layoutIfNeeded() // Apply the constraint updates
